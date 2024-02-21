@@ -18,14 +18,18 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
+
       - name: Install Dependencies
         run: |
-          npm install -g expo-cli
           npm ci
 
+      - name: Upgrade Expo Packages
+        run: expo upgrade
+
       - name: Build Expo App
-        run: |
-          expo build:android  # or expo build:ios
+        run: expo build:android  # or expo build:ios
 
       - name: Archive Artifacts
         uses: actions/upload-artifact@v2
@@ -34,4 +38,3 @@ jobs:
           path: |
             .expo
             build
-
