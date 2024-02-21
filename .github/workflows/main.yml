@@ -1,0 +1,37 @@
+name: Expo Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install Dependencies
+        run: |
+          npm install -g expo-cli
+          npm ci
+
+      - name: Build Expo App
+        run: |
+          expo build:android  # or expo build:ios
+
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: |
+            .expo
+            build
+
